@@ -1,56 +1,86 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:ioasys_pokedex/app/core/theme/theme.dart';
+import 'package:ioasys_pokedex/app/models/pokemon_model.dart';
+import 'package:ioasys_pokedex/app/pages/details/details_page.dart';
 
 import '../../../utils/api.dart';
 
 class PokemonCardWidget extends StatelessWidget {
-  final int index;
-  final int imageId;
-  final String name;
+  final PokemonModel pokemon;
 
   const PokemonCardWidget({
     Key? key,
-    required this.index,
-    required this.imageId,
-    required this.name,
+    required this.pokemon,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(
+        Navigator.push(
           context,
-          '/details',
-          arguments: index,
+          MaterialPageRoute(
+            builder: (_) => DetailsPage(pokemon: pokemon),
+          ),
         );
       },
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.green),
+          border: Border.all(
+              color: AppTheme.color(type: pokemon.types.first.type.name)!),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text((index + 1).toString(), style: TextStyle(fontSize: 8)),
+            Padding(
+              padding: const EdgeInsets.only(top: 4, right: 4),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: Text(
+                  '#${pokemon.id.toString().padLeft(3, '0')}',
+                  style: TextStyle(
+                    fontSize: 8,
+                    color: AppTheme.color(type: pokemon.types.first.type.name)!,
+                  ),
+                ),
+              ),
+            ),
             SizedBox(
               width: 72,
               height: 72,
-              child: SvgPicture.network(
-                API.REQUEST_POKEMON_IMG(imageId),
+              child: Hero(
+                tag: pokemon.id,
+                child: SvgPicture.network(
+                  API.REQUEST_POKEMON_IMG(pokemon.id),
+                  placeholderBuilder: ((context) {
+                    return Container(
+                        padding: const EdgeInsets.all(16),
+                        child: const CircularProgressIndicator());
+                  }),
+                ),
               ),
             ),
             Container(
               child: Center(
                 child: Text(
-                  name,
-                  style: TextStyle(fontSize: 10),
+                  pokemon.name,
+                  style: const TextStyle(
+                    fontSize: 10,
+                    color: AppTheme.white,
+                  ),
                 ),
               ),
               width: MediaQuery.of(context).size.width,
               height: 24,
-              decoration: BoxDecoration(color: Colors.green),
+              decoration: BoxDecoration(
+                color: AppTheme.color(type: pokemon.types.first.type.name),
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(7),
+                  bottomRight: Radius.circular(7),
+                ),
+              ),
             ),
           ],
         ),

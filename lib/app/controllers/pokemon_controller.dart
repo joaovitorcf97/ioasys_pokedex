@@ -1,18 +1,19 @@
-import 'package:flutter/cupertino.dart';
-import 'package:ioasys_pokedex/app/models/pokemons_model.dart';
+import 'package:flutter/material.dart';
 
-import '../repositories/pokemons_repository.dart';
+import '../models/pokemon_model.dart';
+import '../repositories/pokemon_repository.dart';
 
 class PokemonController {
-  final PokemonsRepository _pokemonRepository;
+  final PokemonRepository _pokemonRepository;
+  final String name;
 
-  PokemonController(this._pokemonRepository) {
+  PokemonController(this._pokemonRepository, this.name) {
     fetch();
   }
 
-  ValueNotifier<PokemonsModel?> pokemons = ValueNotifier<PokemonsModel?>(null);
+  ValueNotifier<PokemonModel?> pokemon = ValueNotifier<PokemonModel?>(null);
 
   fetch() async {
-    pokemons.value = await _pokemonRepository.getAllPokemons();
+    pokemon.value = await _pokemonRepository.getPokemon(name);
   }
 }

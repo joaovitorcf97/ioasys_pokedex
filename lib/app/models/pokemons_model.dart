@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class PokemonsModel {
   int? count;
   String? next;
@@ -25,6 +27,35 @@ class PokemonsModel {
     }
     return data;
   }
+
+  @override
+  String toString() =>
+      'PokemonsModel(count: $count, next: $next, results: $results)';
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is PokemonsModel &&
+        other.count == count &&
+        other.next == next &&
+        listEquals(other.results, results);
+  }
+
+  @override
+  int get hashCode => count.hashCode ^ next.hashCode ^ results.hashCode;
+
+  PokemonsModel copyWith({
+    int? count,
+    String? next,
+    List<Results>? results,
+  }) {
+    return PokemonsModel(
+      count: count ?? this.count,
+      next: next ?? this.next,
+      results: results ?? this.results,
+    );
+  }
 }
 
 class Results {
@@ -43,5 +74,28 @@ class Results {
     data['name'] = name;
     data['url'] = url;
     return data;
+  }
+
+  @override
+  String toString() => 'Results(name: $name, url: $url)';
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Results && other.name == name && other.url == url;
+  }
+
+  @override
+  int get hashCode => name.hashCode ^ url.hashCode;
+
+  Results copyWith({
+    String? name,
+    String? url,
+  }) {
+    return Results(
+      name: name ?? this.name,
+      url: url ?? this.url,
+    );
   }
 }

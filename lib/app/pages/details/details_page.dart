@@ -1,66 +1,71 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:ioasys_pokedex/app/core/theme/theme.dart';
+import 'package:ioasys_pokedex/app/pages/details/Widgets/details_card_widget.dart';
+
+import '../../models/pokemon_model.dart';
+import '../../utils/api.dart';
 
 class DetailsPage extends StatelessWidget {
-  const DetailsPage({Key? key}) : super(key: key);
+  final PokemonModel pokemon;
+
+  const DetailsPage({Key? key, required this.pokemon}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    int pokemonArgs = ModalRoute.of(context)!.settings.arguments as int;
-
     return Scaffold(
-        appBar: AppBar(
-          title: Text(''),
-        ),
-        body: Card(
-          child: Padding(
-            padding: const EdgeInsets.all(32),
-            child: Column(
-              children: [
-                Row(
-                  children: [Text('Grass'), Text('Poison')],
-                ),
-                Row(
-                  children: [
-                    Column(
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.add),
-                            Text('6,9 KG'),
-                          ],
-                        ),
-                        Text('Weight')
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.add),
-                            Text('6,9 KG'),
-                          ],
-                        ),
-                        Text('Weight')
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.add),
-                            Text('6,9 KG'),
-                          ],
-                        ),
-                        Text('Weight')
-                      ],
-                    ),
-                  ],
-                ),
-                Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),
-              ],
+      backgroundColor: AppTheme.color(type: pokemon.types.first.type.name),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              pokemon.name,
+              style: const TextStyle(
+                color: AppTheme.white,
+                fontWeight: FontWeight.w700,
+                fontSize: 24,
+              ),
             ),
+            Text(
+              '#${pokemon.id.toString().padLeft(3, '0')}',
+              style: const TextStyle(
+                color: AppTheme.white,
+                fontWeight: FontWeight.w700,
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          margin: const EdgeInsets.only(top: 160),
+          width: MediaQuery.of(context).size.width,
+          //height: MediaQuery.of(context).size.height,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              DetailsCardWidget(pokemon: pokemon),
+              Positioned(
+                top: -125,
+                left: 90,
+                child: SizedBox(
+                  width: 200,
+                  height: 200,
+                  child: Hero(
+                    tag: pokemon.id,
+                    child: SvgPicture.network(
+                      API.REQUEST_POKEMON_IMG(pokemon.id),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
