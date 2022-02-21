@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:ioasys_pokedex/app/utils/string_first_letter.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../models/pokemon_model.dart';
@@ -77,7 +78,8 @@ class CharacteristicsWidget extends StatelessWidget {
                 shrinkWrap: true,
                 itemBuilder: (_, index) {
                   return Center(
-                      child: Text(pokemon.abilities[index].ability.name));
+                      child: Text(pokemon.abilities[index].ability.name
+                          .toFirstLetterCase()));
                 },
               ),
             ),

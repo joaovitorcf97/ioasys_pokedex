@@ -7,7 +7,7 @@ import 'package:ioasys_pokedex/app/pages/home/widgets/pokemon_card_widget.dart';
 import 'package:ioasys_pokedex/app/repositories/pokemon_repository.dart';
 import 'package:ioasys_pokedex/app/repositories/pokemons_repository.dart';
 import 'package:ioasys_pokedex/app/services/dio_service.dart';
-import 'package:ioasys_pokedex/app/widgets/title_widget.dart';
+import 'package:ioasys_pokedex/app/pages/home/widgets/title_widget.dart';
 import '../../core/theme/theme.dart';
 
 class HomePage extends StatefulWidget {
@@ -51,6 +51,7 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -61,8 +62,11 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const TitleWidget(),
                 Padding(
-                  padding:
-                      const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                  padding: const EdgeInsets.only(
+                    left: 16,
+                    right: 16,
+                    bottom: 16,
+                  ),
                   child: SizedBox(
                     height: 54,
                     child: TextField(

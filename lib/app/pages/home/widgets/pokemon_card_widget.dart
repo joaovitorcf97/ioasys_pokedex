@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ioasys_pokedex/app/core/theme/theme.dart';
 import 'package:ioasys_pokedex/app/models/pokemon_model.dart';
 import 'package:ioasys_pokedex/app/pages/details/details_page.dart';
+import "../../../utils/string_first_letter.dart";
 
 import '../../../utils/api.dart';
 
@@ -42,7 +43,7 @@ class PokemonCardWidget extends StatelessWidget {
                   '#${pokemon.id.toString().padLeft(3, '0')}',
                   style: TextStyle(
                     fontSize: 8,
-                    color: AppTheme.color(type: pokemon.types.first.type.name)!,
+                    color: AppTheme.color(type: pokemon.types.first.type.name),
                   ),
                 ),
               ),
@@ -65,7 +66,7 @@ class PokemonCardWidget extends StatelessWidget {
             Container(
               child: Center(
                 child: Text(
-                  pokemon.name,
+                  pokemon.name.toFirstLetterCase(),
                   style: const TextStyle(
                     fontSize: 10,
                     color: AppTheme.white,
